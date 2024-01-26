@@ -1,7 +1,12 @@
+import logging
+
 from .exceptions import Exception
 from .use_cases import countUseCase
 from rest_framework.views import APIView
 from rest_framework.response import Response
+
+
+logger = logging.getLogger(__name__)
 
 
 class CounterView(APIView):
@@ -29,6 +34,7 @@ class CounterView(APIView):
             )
         try:
             res = countUseCase(ip)
+            logger.info(f'\n {res} \n')
             return Response(res, status=200)
         except Exception as e:
             return Response(
