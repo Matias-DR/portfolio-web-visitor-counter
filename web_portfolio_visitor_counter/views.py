@@ -1,21 +1,23 @@
-import logging
-from .use_cases import CountUseCase
+from .exceptions import Exception
+from .use_cases import countUseCase
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 
-logger = logging.getLogger(__name__)
-
-
 class CounterView(APIView):
+    """
+        View for the visit count
+    """
+
     def post(self, request):
+        """
+            Gets ip from body and executes de use case of count
+        """
         ip = request.data.get('ip', None)
-        logger.info(f'entroglio, esto es ip {ip}')
         if not ip:
             return Response({'message': 'IP address not provided'}, status=400)
-        use_case = CountUseCase()
         try:
-            res = use_case.exe(ip)
+            res = countUseCase(ip)
             return Response(res, status=200)
-        except:
-            return Response(status=400)
+        except Exception as e:
+            return Response({'message': e.msg}, status=e.status_code)
