@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-djp+86nu-xsdemg)v&y_5^%ddrp%#gv7f07hc1k4sxu-k%w5^k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'web_portfolio_visitor_counter',
+    'ecommerce_purchases'
 ]
 
 MIDDLEWARE = [
