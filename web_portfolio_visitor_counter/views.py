@@ -16,10 +16,8 @@ class CounterView(APIView):
 
     def post(self, request):
         """
-            Gets ip from body and executes de use case of count
+            Gets ip from body and executes count use case
         """
-        # Si como "data" envían cualquier cosa que NO sea un objeto JSON,
-        # se rompe, por eso las sentencias try-except para "data.get(...)".
         try:
             ip = request.data.get('ip', None)
             if not ip:
