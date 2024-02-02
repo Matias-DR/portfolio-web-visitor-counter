@@ -10,9 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 '''
 
-import os
+from os import getenv
 
+from dotenv import load_dotenv
 from pathlib import Path
+
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,17 +27,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-djp+86nu-xsdemg)v&y_5^%ddrp%#gv7f07hc1k4sxu-k%w5^k'
+SECRET_KEY = getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app']
+ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'drf_spectacular',
+    'drf_spectacular_sidecar',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,8 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'web_portfolio_visitor_counter',
-    'ecommerce_purchases'
+    'web_portfolio_visitor_counter'
 ]
 
 MIDDLEWARE = [
@@ -134,6 +140,11 @@ LOGGING = {
         'console': {
             'class': 'logging.StreamHandler',
         },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'info.log',
+        }
     },
     'root': {
         'handlers': ['console'],
@@ -141,9 +152,31 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'handlers': ['console'],
+            'handlers': ['console', 'file'],
             'level': 'INFO',
             'propagate': True,
         },
     },
+}
+
+# Django REST Framework configuration
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema'
+}
+
+# Spectacular settings for swagger
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'api',
+    'DESCRIPTION': 'mdr-todo-challenge',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SWAGGER_UI_DIST': 'SIDECAR',
+    'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+    'REDOC_DIST': 'SIDECAR',
+    # Split components into request and response parts where appropriate
+    'COMPONENT_SPLIT_REQUEST': True,
+    # Adds 'blank' and 'null' enum choices where appropriate. disable on client generation issues
+    'ENUM_ADD_EXPLICIT_BLANK_NULL_CHOICE': False
 }
