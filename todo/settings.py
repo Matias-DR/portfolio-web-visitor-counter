@@ -32,7 +32,11 @@ SECRET_KEY = getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
+# fly.io settings for deployment
+
+APP_NAME = getenv('FLY_APP_NAME')
+
+ALLOWED_HOSTS = ['127.0.0.1', f'{APP_NAME}.fly.dev']
 
 
 # Application definition
