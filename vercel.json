@@ -9,6 +9,6 @@
   }],
   "routes": [{
     "src": "/(.*)",
-    "dest": "/todo/wsgi.py"
+    "dest": "/todo/asgi.py"
   }]
 }
